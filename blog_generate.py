@@ -11,7 +11,7 @@ from langdetect import detect
 ## Langsmith Tracking
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"]="Blog Generator"
-if 'blog_state' not in st.swession_state:
+if 'blog_state' not in st.session_state:
     st.session_state.blog_state = None
 if 'graph' not in st.session_state:
     st.session_state.graph = None
@@ -95,24 +95,14 @@ def init_graph(api_key: str):
     builder = StateGraph(BlogState)
     
     builder.add_node("title_generator", generate_title) ## Generate Title
-    #builder.add_node("search_web", search_web) ## Search Web using Tavily based in the topic
     builder.add_node("content_generator", generate_content) ## Generate Content using the output of title_generator and search_web
     builder.add_node("content_reviewer", review_content) ## Review Content and generate feedback
     builder.add_node("content_updater", update_content)
-    #builder.add_node("quality_check", evaluate_content) ## Validate the content based on feedback and generate verdict
 
     builder.add_edge(START, "title_generator")
-    #builder.add_edge(START, "search_web")
     builder.add_edge("title_generator", "content_generator")
-    #builder.add_edge("search_web", "content_generator")
     builder.add_edge("content_generator", "content_reviewer")
-    #builder.add_edge("content_reviewer", "quality_check")
-    
-    # builder.add_conditional_edges(
-    #     "quality_check",
-    #     quality_check_output,
-    #     {"Pass": END, "Fail": "content_generator"}
-    # )
+
     builder.add_edge("content_reviewer", "content_updater")
     builder.add_edge("content_updater", END)
     graph=builder.compile()
@@ -127,11 +117,10 @@ def init_graph(api_key: str):
 
 
 # Streamlit UI components
-st.title("🚀 BlogForge Pro Agent")
+st.title("🚀 Blog Creator Agent")
 st.markdown("""
 **Smart Blog Generation with Auto-Refinement**  
-*From first draft to final edit - AI-assisted writing meets professional standards*  
-✓ SEO-Optimized Structure ✓ Grammar & Style Checks ✓ Feedback-Driven Revisions  
+
 """)
 
 # Sidebar components
