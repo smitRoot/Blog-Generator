@@ -6,9 +6,9 @@
 This project creates a blog generator using the Groq model and LangChain's graph-based system. It allows for generating blog content and reviewing it through a series of interconnected steps. The goal is to automate the process of blog generation and reviewing using a custom pipeline.
 
 ### Snapshots
-![](images/Screenshot.png)
+![](Images/Screenshot.png)
 
-![](images/Final%20Home%20Page.png)
+![](Images/Final%20Home%20Page.png)
 
 
 
